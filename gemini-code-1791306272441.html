@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من سيربح المليون - هويّة العلوم البيئية والكيمياء</title>
+    <!-- خط تجوال من Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a192f;
+            --bg-card: #112240;
+            --bg-card-hover: #1d3557;
+            --accent-green: #10b981;
+            --accent-blue: #0284c7;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --text-light: #f8fafc;
+            --text-dim: #94a3b8;
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #112240 0%, #0a192f 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* Header Layout */
+        header {
+            background: rgba(10, 25, 47, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            fill: var(--accent-green);
+        }
+
+        .logo-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-light);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .btn-icon:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        /* Main Container */
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            max-width: 1300px;
+            margin: 20px auto;
+            width: 95%;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 900px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                order: 2;
+            }
+        }
+
+        /* Quiz Arena */
+        .quiz-arena {
+            background: rgba(17, 34, 64, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Lifelines Row */
+        .lifelines-row {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .lifeline-btn {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.2), rgba(16, 185, 129, 0.2));
+            border: 1px solid var(--accent-blue);
+            color: var(--text-light);
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lifeline-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            border-color: var(--accent-green);
+        }
+
+        .lifeline-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: var(--text-dim);
+            filter: grayscale(1);
+        }
+
+        /* Timer Test Tube */
+        .timer-container {
+            width: 100%;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-glass);
+            position: relative;
+        }
+
+        .timer-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow));
+            transition: width 1s linear;
+        }
+
+        /* Question Box */
+        .question-box {
+            background: rgba(10, 25, 47, 0.8);
+            border: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 15px rgba(2, 132, 199, 0.2);
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 16px 20px;
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(2, 132, 199, 0.2);
+            border-color: var(--accent-blue);
+            transform: translateX(-4px);
+        }
+
+        .option-prefix {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-yellow);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct {
+            background: rgba(16, 185, 129, 0.3) !important;
+            border-color: var(--accent-green) !important;
+            color: #ffffff;
+            animation: pulse-green 0.6s infinite alternate;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: var(--accent-red) !important;
+            animation: shake 0.4s;
+        }
+
+        @keyframes pulse-green {
+            from { box-shadow: 0 0 5px var(--accent-green); }
+            to { box-shadow: 0 0 20px var(--accent-green); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Explanation Modal/Box */
+        .explain-box {
+            margin-top: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 16px;
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .explain-box.show {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        /* Sidebar - Periodic Ladder */
+        .sidebar {
+            background: rgba(17, 34, 64, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .ladder-title {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .ladder-step {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 0.85rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .ladder-step.active {
+            background: rgba(2, 132, 199, 0.3);
+            border-color: var(--accent-blue);
+            font-weight: 800;
+            color: #ffffff;
+            transform: scale(1.02);
+        }
+
+        .ladder-step.checkpoint {
+            color: var(--accent-yellow);
+            font-weight: 700;
+        }
+
+        .element-badge {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .ladder-step.active .element-badge {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        /* Dialog & Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 25, 47, 0.9);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-blue);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .modal-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            color: var(--text-light);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border: none;
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* Flashcards Modal */
+        .flashcard {
+            background: rgba(10, 25, 47, 0.9);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 16px;
+            padding: 30px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-term {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+        }
+
+        .flashcard-def {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 12px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-area">
+            <svg class="logo-icon" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6E10,10 0 0,0 7,11E10,10 0 0,0 12,16E10,10 0 0,0 17,11E10,10 0 0,0 12,6Z"/>
+            </svg>
+            <div class="logo-title">كيمياء البيئة | مسابقة المليون</div>
+        </div>
+        <div class="header-controls">
+            <button class="btn-icon" id="soundToggle">🔊 الصوت: مفعل</button>
+            <button class="btn-icon" id="flashcardsBtn">📚 بطاقات المصطلحات</button>
+            <button class="btn-icon" id="withdrawBtn" style="background: rgba(239, 68, 68, 0.2); border-color: var(--accent-red);">🚪 انسحاب</button>
+        </div>
+    </header>
+
+    <!-- Main Game Arena -->
+    <div class="game-container">
+        
+        <!-- Quiz Main Box -->
+        <main class="quiz-arena">
+            
+            <!-- Lifelines -->
+            <div class="lifelines-row">
+                <button class="lifeline-btn" id="life5050">
+                    🧪 المحلول المخفف (50:50)
+                </button>
+                <button class="lifeline-btn" id="lifePhone">
+                    📞 اتصل بعالِم بيئة
+                </button>
+                <button class="lifeline-btn" id="lifeAudience">
+                    📊 رأي المختبر
+                </button>
+            </div>
+
+            <!-- Timer Tube -->
+            <div class="timer-container">
+                <div class="timer-fill" id="timerFill"></div>
+            </div>
+
+            <!-- Question Box -->
+            <div class="question-box" id="questionText">
+                جاري تحميل السؤال...
+            </div>
+
+            <!-- Options Grid -->
+            <div class="options-grid" id="optionsGrid">
+                <button class="option-btn" data-idx="0"><span class="option-prefix">أ</span> <span class="opt-text"></span></button>
+                <button class="option-btn" data-idx="1"><span class="option-prefix">ب</span> <span class="opt-text"></span></button>
+                <button class="option-btn" data-idx="2"><span class="option-prefix">ج</span> <span class="opt-text"></span></button>
+                <button class="option-btn" data-idx="3"><span class="option-prefix">د</span> <span class="opt-text"></span></button>
+            </div>
+
+            <!-- Explanation Box -->
+            <div class="explain-box" id="explainBox">
+                <strong>التفسير العلمي:</strong> <span id="explainText"></span>
+                <br><small id="explainPage" style="color: var(--accent-yellow); margin-top: 5px; display: inline-block;"></small>
+                <div style="margin-top: 12px; text-align: left;">
+                    <button class="btn-primary" id="nextQuestionBtn">السؤال التالي ⬅️</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Sidebar / Ladder -->
+        <aside class="sidebar">
+            <div class="ladder-title">سلم العناصر وربح الطاقة</div>
+            <div id="ladderContainer">
+                <!-- Generated dynamically -->
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Generic Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">عنوان النافذة</div>
+            <div class="modal-body" id="modalBody">محتوى النافذة...</div>
+            <button class="btn-primary" id="modalBtn">حسناً</button>
+        </div>
+    </div>
+
+    <!-- Flashcards Modal -->
+    <div class="modal-overlay" id="flashcardOverlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-title">📚 بطاقات مراجعة المصطلحات العلميّة</div>
+            <div class="flashcard" id="flashcardBox">
+                <div class="flashcard-term" id="fcTerm">المصطلح</div>
+                <div class="flashcard-def" id="fcDef">التعريف هنا...</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+                <button class="btn-icon" id="fcPrev">⬅️ السابق</button>
+                <button class="btn-primary" id="fcFlip">🔄 إظهار التعريف</button>
+                <button class="btn-icon" id="fcNext">التالي ➡️</button>
+            </div>
+            <button class="btn-icon" id="fcClose" style="margin-top: 15px; width: 100%; justify-content: center;">إغلاق البطاقات</button>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1) بنك الأسئلة الشامل (45 سؤالاً - 3 أسئلة لكل مستوى)
+           مرجع حصري: العلوم البيئية - الصف الحادي عشر - سلطنة عُمان (الوحدة الأولى)
+           ========================================================================== */
+        const QUESTION_BANK = [
+            // Level 1 (Element: H - 100 Points)
+            { level: 1, topic: "التعاريف والاستدامة", q: "ما المقصود بمصطلح 'الاستدامة' (Sustainability) حسب كتاب العلوم البيئية؟", options: ["القدرة على تلبية احتياجات الحاضر دون المساس بقدرة الأجيال القادمة", "استخراج جميع الموارد الطبيعية المتاحة في أقصر وقت ممكن", "الاعتماد الكامل على الوقود الأحفوري لتوليد الطاقة الكهربائية", "منع الإنسان التام من استخدام أية موارد طبيعية في البيئة"], answer: 0, explain: "الاستدامة تعني القدرة على تلبية احتياجات الحاضر دون المساس بقدرة الأجيال القادمة على تلبية احتياجاتها.", page: 18 },
+            { level: 1, topic: "دورة الماء", q: "تُعرف العملية التي يتحول فيها الماء من الحالة الغازية إلى الحالة السائلة نتيجة التبريد بـ:", options: ["التبخر (Evaporation)", "التكثف (Condensation)", "النتح (Transpiration)", "الهطول (Precipitation)"], answer: 1, explain: "التكثف هو تحول بخار الماء من الحالة الغازية إلى سائل عند التقائه بهواء بارد أو ارتفاعه لأعلى.", page: 22 },
+            { level: 1, topic: "مكونات النظام البيئي", q: "أي من الآتي يُعد مثالاً على عامل غير حيوي (Abiotic factor) في النظام البيئي؟", options: ["البكتيريا", "الفطريات", "درجة الحرارة", "الأشجار"], answer: 2, explain: "العوامل غير الحيوية تشمل المكونات الفيزيائية والكيميائية كالضوء، والحرارة، والماء، والتربة.", page: 24 },
+
+            // Level 2 (Element: O - 200 Points)
+            { level: 2, topic: "دورة الماء", q: "ما العملية التي ينطلق من خلالها الماء إلى الغلاف الجوي أساساً عبر أوراق النباتات؟", options: ["الاعتراض (Interception)", "النتح (Transpiration)", "الجريان الجوفي", "التكثف"], answer: 1, explain: "النتح هو انطلاق الماء من أوراق النباتات (وعبر الساق أحياناً) إلى الغلاف الجوي.", page: 21 },
+            { level: 2, topic: "الإدارة المستدامة للموارد", q: "كم تستغرق عملية تكوّن الفحم الحجري والنفط في الطبيعة تقريباً؟", options: ["300 ألف سنة", "3 ملايين سنة", "300 مليون سنة", "3 مليارات سنة"], answer: 2, explain: "استخدام الفحم والنفط غير مستدام لأن تكوّنهما يستغرق حوالي 300 مليون سنة.", page: 19 },
+            { level: 2, topic: "أنظمة دورة الماء", q: "لماذا تُعتبر دورة الماء على المستوى العالمي نظاماً مغلقاً (Closed system)؟", options: ["لأن الماء يهرب باستمرار إلى الفضاء الخارجي", "لأن كمية الماء الإجمالية على كوكب الأرض تبقى ثابتة لا تُفقد ولا تُكتسب", "لأن الماء ينزل فقط في المحيطات دون اليابسة", "لأن نسبة بخار الماء ثابتة تماماً في كل الأوقات"], answer: 1, explain: "على المستوى العالمي تُعد دورة الماء نظاماً مغلقاً حيث لا تكتسب الأرض مادة ولا تفقدها وتبقى الكمية ثابتة.", page: 20 },
+
+            // Level 3 (Element: C - 300 Points)
+            { level: 3, topic: "التفاعلات الحيوية", q: "التنافس الذي يحدث بين أفراد من 'نفس النوع' للحصول على الموارد يُسمى:", options: ["تنافس بين الأنواع (Inter-specific)", "تنافس داخل النوع (Intra-specific)", "افتراس (Predation)", "رعي جائر (Overgrazing)"], answer: 1, explain: "التنافس داخل النوع (Intra-specific competition) يحدث بين أفراد ينتمون لنفس النوع كذكور الغزال للتزاور.", page: 28 },
+            { level: 3, topic: "النظم البيئية", q: "ما المصطلح الذي يعبر عن 'المجموعات الأحيائية المختلفة التي تعيش معاً في نظام بيئي'؟", options: ["الجماعة الأحيائية (Population)", "المجتمع الأحيائي (Community)", "الفرد (Individual)", "المنطقة الأحيائية (Biome)"], answer: 1, explain: "المجتمع الأحيائي يتكون من جماعات أحيائية مختلفة (نباتات، حيوانات، حشرات...) تعيش معاً.", page: 26 },
+            { level: 3, topic: "التكيفات البيئية", q: "كيف يتكيف ضفدع 'بكسي' (Pixie frog) للبقاء حياً أثناء فترة الجفاف الشديدة؟", options: ["يهاجر آلاف الكيلومترات نحو النهر", "يفرز بشرة مخاطية سميكة ويدخل في حالة بيات شتوي/سكون", "يتسلق الأشجار العالية لامتصاص الرطوبة", "يتغذى على الصخور الصحراوية"], answer: 1, explain: "يفرز ضفدع بكسي بشرة مخاطية تحميه من الجفاف تحت الأرض ويدخل في حالة سكون (Hibernation).", page: 31 },
+
+            // Level 4 (Element: N - 500 Points)
+            { level: 4, topic: "السلاسل الغذائية", q: "الكائنات الحية التي تقوم بتحليل المواد النباتية والحيوانية الميتة وإعادة المغذيات للتربة هي:", options: ["المستهلكات الأولية", "المنتجات", "المحللات (Decomposers)", "المفترسات العلوية"], answer: 2, explain: "المحللات كالبكتيريا والفطريات تعيد إطلاق المغذيات للتربة من المواد الميتة وتعمل كـ Recyclers.", page: 33 },
+            { level: 4, topic: "مستويات التغذية", q: "في الهرم البيئي، تشغل 'النباتات الخضراء والطحالب' دائماً المستوى الغذائي:", options: ["الأول (المنتجات)", "الثاني (المستهلك الأول)", "الثالث (المستهلك الثانوي)", "الرابع (المستهلك الثالثي)"], answer: 0, explain: "يتكون المستوى الغذائي الأول دائماً من المنتجات (Producers) كالنباتات والطحالب العائلية.", page: 32 },
+            { level: 4, topic: "الشبكات الغذائية", q: "ما الذي يحدث لاستقرار النظام البيئي عندما تزداد الشبكة الغذائية تعقيداً وتفرعاً؟", options: ["يصبح أكثر هشاشة وعرضة للانهيار", "يصبح أكثر استقراراً لوجود البدائل الغذائية", "تختفي المحللات تماماً", "يتوقف النتح والتمثيل الضوئي"], answer: 1, explain: "كلما كانت الشبكة المعقدة تحوي مصادر غذائية بديلة، أصبح النظام البيئي أكثر استقراراً وقدرة على الصمود.", page: 34 },
+
+            // Level 5 (Element: Mg - 1,000 Points) [CHECKPOINT 1]
+            { level: 5, topic: "الأهرامات وفقدان الطاقة", q: "كم تبلغ نسبة الطاقة التقريبية التي تنتقل من مستوى غذائي إلى المستوى الذي يليه؟", options: ["100%", "50%", "10%", "1%"], answer: 2, explain: "تنتقل حوالي 10% فقط من الطاقة إلى المستوى الغذائي التالي، بينما يُفقد 90% في التنفس والفضالت والحرارة.", page: 33 },
+            { level: 5, topic: "دراسة حالة", q: "ما الخاصية التكيفية الاستثنائية لخنفساء صحراء ناميبيا لتوفير ماء الشرب؟", options: ["تحفر آباراً عميقة بالتربة", "تجمع قطرات الضباب على ظهرها وتوجهها لفمها", "تستخلص الماء من أكل الصخور", "تخزن الماء في سنام خاص"], answer: 1, explain: "تتسلق الخنفساء الكثبان الرملية لتكثيف قطرات الضباب على جسمها وتوجيهها انسيابياً نحو فمها.", page: 30 },
+            { level: 5, topic: "التكيف السلوكي", q: "ما السبب الرئيسي للهجرة الكبرى لحيوانات 'النو' والحيوانات العشبية بين ماساي مارا وسيرينغيتي؟", options: ["الهروب من الإنسان", "البحث عن الأمطار والأعشاب الخضراء الطازجة", "البحث عن أماكن للتزاوج فقط", "انخفاض درجات الحرارة إلى ما تحت الصفر"], answer: 1, explain: "تتحرك مئات الآلاف من حيوانات النو في هجرة سنوية تتبع هطول الأمطار ونمو الأعشاب الخضراء.", page: 30 },
+
+            // Level 6 (Element: Ca - 2,000 Points)
+            { level: 6, topic: "إدارة الغابات", q: "كيف يُمكن تحقيق 'الإدارة المستدامة للغابات' (Forest Management)؟", options: ["بقطع جميع الأشجار دون إعادة زراعتها", "بمنع دخول الإنسان للغابات مطلقاً", "بإدارة معدل قطع الأشجار وضمان إعادة زراعة أشجار بديلة", "بحرق الغابات دورياً لتجديد التربة"], answer: 2, explain: "تتم الإدارة المستدامة للغابات بالاستفادة من الأخشاب بشرط مراقبة معدل القطع وإعادة الزرع التناغمي.", page: 19 },
+            { level: 6, topic: "الصيد الجائر", q: "أدى الصيد الجائر وغير المستدام في أمريكا الشمالية سابقاً إلى انقراض تقريبي لـ:", options: ["فيل الصحراء", "البيسون الأمريكي (American Bison)", "طائر السنونو", "ضفدع بكسي"], answer: 1, explain: "أدى الاستخدام غير المستدام والصيد الجائر إلى زوال أو فقدان شبه كلي للبيسون الأمريكي.", page: 18 },
+            { level: 6, topic: "مفهوم التلوث", q: "يُعرّف كتاب العلوم البيئية 'التلوث' (Pollution) بأنه:", options: ["زيادة أعداد الحيوانات المفترسة في النظام البيئي", "وجود أو إدخال مادة ضارة ذات تأثيرات سامة في البيئة", "ارتفاع نسبة الاكسجين في الهواء الجوي", "انخفاض كمية الأمطار السنوية"], answer: 1, explain: "التلوث هو وجود أو إدخال مادة ضارة لها تأثيرات سامة في البيئة كالمياه الملوثة غير الصالحة للشراب.", page: 19 },
+
+            // Level 7 (Element: P - 4,000 Points)
+            { level: 7, topic: "المياه الجوفية", q: "الطبقة الصخرية المنفذة التي تختزن المياه تحت سطح الأرض تُسمى:", options: ["الخزان الجوفي (Aquifer)", "الغطاء النباتي (Interception)", "الجريان السطحي", "المنطقة الأحيائية"], answer: 0, explain: "الخزان الجوفي (Aquifer) هو طبقة صخرية منفذة تختزن المياه الجوفية تحت الأرض.", page: 21 },
+            { level: 7, topic: "الهطول والغطاء النباتي", q: "ما المصطلح البيئي لعملية 'احتجاز أوراق الأشجار لقطرات المطر ومنعها مباشرة من الوصول للتربة'؟", options: ["التكثف", "الاعتراض (Interception)", "الرشح الجوفي", "النتح"], answer: 1, explain: "الاعتراض (Interception) هو منع أوراق الأشجار والمظلة النباتية للهطول من الوصول المباشر للتربة.", page: 21 },
+            { level: 7, topic: "معدلات الهطول", q: "المناطق المطيرة الاستوائية تحصل سنوياً على هطول أمطار يتجاوز:", options: ["250 mm", "500 mm", "1000 mm", "2000 mm"], answer: 3, explain: "تحصل المناطق الاستوائية المطيرة على أكثر من 2000 mm من الأمطار سنوياً بينما الصحارى أقل من 250 mm.", page: 21 },
+
+            // Level 8 (Element: S - 8,000 Points)
+            { level: 8, topic: "المناطق الأحيائية", q: "المفهوم الذي يُعبر عن 'مفهوم جغرافي واسع النطاق يحدده مناخ وغطاء نباتي سائد' هو:", options: ["الموطن البيئي", "المنطقة الأحيائية (Biome)", "المجتمع الأحيائي", "النظام البيئي المغلق"], answer: 1, explain: "المنطقة الأحيائية (Biome) هي نطاق جغرافي واسع يحدده مناخ ونمط غطاء نباتي وحيواني سائد.", page: 24 },
+            { level: 8, topic: "الموطن والمساحة", q: "ما المكونات الرئيسية الأربعة التي يجب أن يوفرها 'الموطن البيئي' لضمان بقاء الكائن الحي؟", options: ["الضوء، الكربون، النيتروجين، الفوسفور", "الطعام، الماء، المأوى، المساحة الكافية", "الأكسجين، البكتيريا، الصخور، الرياح", "السماد، الرعي، الافتراس، التنافس"], answer: 1, explain: "المكونات الرئيسية للموطن البيئي هي: الطعام، والماء، والمأوى، والمساحة الكافية للتكاثر للبقاء.", page: 27 },
+            { level: 8, topic: "حجم النظام البيئي", q: "أي العبارات التالية صحيحة بشأن حجم النظام البيئي (Ecosystem)؟", options: ["يجب أن يكون دائماً بمسافات قارية قاطعة", "قد يتفاوت حجمه من بركة ماء صغيرة جداً إلى غابة كاملة", "يتكون فقط من العوامل الحيوية بدون غير الحيوية", "لا توجد أي تفاعلات داخلية في الأنظمة البيئية الصغرى"], answer: 1, explain: "قد يختلف حجم النظام البيئي؛ فقد يكون بركة صغيرة (Pond) أو أراضي رطبة، وتتفاعل مع الأنظمة الأكبر.", page: 25 },
+
+            // Level 9 (Element: Fe - 16,000 Points)
+            { level: 9, topic: "التفاعلات الحيوية", q: "تفاعل حيوي يتغذى فيه كائن حي آكل للأعشاب على النباتات يُعرف بـ:", options: ["الافتراس (Predation)", "الرعي (Grazing)", "التنافس داخل النوع", "التحلل (Decomposition)"], answer: 1, explain: "الرعي (Grazing) هو تغذي آكلات الأعشاب (Herbivores) على الأعشاب والنباتات.", page: 28 },
+            { level: 9, topic: "المنافسة والافتراس", q: "عندما تتنافس الأسود والضباع والفاهود على صيد نفس نوع الظباء، فهذا يُعد تنافساً:", options: ["داخل النوع (Intra-specific)", "بين الأنواع (Inter-specific)", "تكامل حيوي مطلق", "عامل غير حيوي"], answer: 1, explain: "التنافس بين الأنواع (Inter-specific competition) يحدث عندما تتنافس أنواع مختلفة على نفس الموارد.", page: 28 },
+            { level: 9, topic: "فيل صحراء ناميبيا", q: "من التكيفات الخاصة بفيل صحراء ناميبيا بالمقارنة مع فيلة السافانا:", options: ["يتناول كميات مضاعفة من المياه يومياً", "يمشي مسافات شاسعة جداً وله أقدام أعرض لتسهيل التنقل على الرمال", "يدخل في بيات شتوي طويل", "يتغذى على اللحوم المفترسة"], answer: 1, explain: "تأقلمت فيلة صحراء ناميبيا بالمشي لمسافات طويلة بحثاً عن الماء ويمتلك أقداماً متكيفة للرمال.", page: 18 },
+
+            // Level 10 (Element: Na - 32,000 Points) [CHECKPOINT 2]
+            { level: 10, topic: "حسابات فقدان الطاقة", q: "إذا احتوى مستوى المنتجات على 20,000 جول من الطاقة، فكم طاقة تصل تقريباً للمستهلك الثانوي؟", options: ["20,000 جول", "2,000 جول", "200 جول", "20 جول"], answer: 2, explain: "المنتج (20,000) ⬅️ المستهلك الأول (10% = 2,000) ⬅️ المستهلك الثانوي (10% = 200 جول).", page: 33 },
+            { level: 10, topic: "مصطلحات التغذية", q: "الكائنات التي تأكل النباتات واللحوم معاً تُسمى:", options: ["آكلات أعشاب (Herbivores)", "آكلات لحوم (Carnivores)", "القوارض / متنوعة التغذية (Omnivores)", "منتجات أولية (Producers)"], answer: 2, explain: "الكائنات القارضة/متنوعة التغذية (Omnivores) تتغذى على اللحوم والنباتات معاً كالإنسان وبعض الدببة.", page: 32 },
+            { level: 10, topic: "السلسلة الغذائية الصحيحة", q: "حدد التسلسل الصحيح لتدفق الطاقة في السلسلة الغذائية التالية:", options: ["مستهلك أول ⬅️ منتج ⬅️ مستهلك ثانٍ ⬅️ مفترس علوي", "منتج ⬅️ مستهلك أول (عشبي) ⬅️ مستهلك ثانٍ (لاحم) ⬅️ مستهلك ثالثي", "محلل ⬅️ مستهلك ثالثي ⬅️ منتج ⬅️ مستهلك أول", "مستهلك ثانٍ ⬅️ مستهلك أول ⬅️️ منتج ⬅️ محلل"], answer: 1, explain: "تبدأ السلسلة دائماً بالمنتج ثم المستهلك الأول العشبي ثم المستهلك الثانوي فالحديث عن المفترس العلوي.", page: 32 },
+
+            // Level 11 (Element: Cl - 64,000 Points)
+            { level: 11, topic: "معادلة التمثيل الضوئي", q: "الصيغة الكيميائية الرمزية الصحيحة والموزونة لعملية التمثيل الضوئي هي:", options: ["6CO2 + 6H2O -> C6H12O6 + 6O2", "C6H12O6 + 6O2 -> 6CO2 + 6H2O", "CH4 + 2O2 -> CO2 + 2H2O", "CO2 + H2O -> C6H12O6 + O2"], answer: 0, explain: "المعادلة الموزونة للتمثيل الضوئي هي: 6CO2 + 6H2O في وجود الضوء والكلوروفيل تعطي C6H12O6 + 6O2.", page: 38 },
+            { level: 11, topic: "دورة الكربون والكلوروفيل", q: "ما الصبغة الخضراء المسؤولة عن امتصاص الطاقة الضوئية في أوراق النباتات؟", options: ["الكاروتين", "الكلوروفيل (Chlorophyll)", "الهموجلوبين", "الأنثوسيانين"], answer: 1, explain: "الكلوروفيل هو الصبغة الخضراء الموجودة في البلاستيدات الخضراء لامتصاص ضوء الشمس.", page: 37 },
+            { level: 11, topic: "العوامل المحددة للتمثيل الضوئي", q: "أي مما يلي ليس من العوامل المحددة لعملية التمثيل الضوئي المذكورة في الكتاب؟", options: ["تركيز ثاني أكسيد الكربون", "شدة الضوء ودرجة الحرارة", "تركيز الأكسجين في الجو", "توافر الماء"], answer: 2, explain: "العوامل المحددة الرئيسية هي: الضوء، ودرجة الحرارة، وثاني أكسيد الكربون، والماء.", page: 38 },
+
+            // Level 12 (Element: K - 125,000 Points)
+            { level: 12, topic: "معادلة احتراق الميثان", q: "عند احتراق الميثان (CH4) احتراقاً تاماً في وجود الأكسجين، فإن الناتج المباشر هو:", options: ["C6H12O6 + O2", "CO2 + 2H2O", "2C8H18 + O2", "CO + H2"], answer: 1, explain: "معادلة احتراق الميثان: CH4 + 2O2 -> CO2 + 2H2O + طاقة حرارية.", page: 39 },
+            { level: 12, topic: "معادلة احتراق الأوكتان", q: "المعادلة الكيميائية الموزونة لاحتراق جزيئين من الأوكتان (C8H18) الموجود بالبنزين هي:", options: ["2C8H18 + 25O2 -> 16CO2 + 18H2O", "C8H18 + O2 -> CO2 + H2O", "2C8H18 + 12O2 -> 8CO2 + 9H2O", "C8H18 + 25O2 -> 16CO2 + 18H2O"], answer: 0, explain: "معادلة احتراق الأوكتان الموزونة: 2C8H18 + 25O2 -> 16CO2 + 18H2O.", page: 39 },
+            { level: 12, topic: "التنفس الهوائي", q: "عملية التفكيك الكيميائي لجلوكوز في الخلايا باستخدام الأكسجين لإطلاق الطاقة تُسمى:", options: ["التمثيل الضوئي", "التنفس الهوائي (Aerobic respiration)", "الاحتراق الأحفوري", "الترشيح الجوفي"], answer: 1, explain: "التنفس الهوائي هو تفكيك جزيئات الجلوكوز في الخلايا باستخدام الأكسجين وينتج CO2 وماء وطاقة.", page: 38 },
+
+            // Level 13 (Element: Si - 250,000 Points)
+            { level: 13, topic: "مصارف ومصادر الكربون", q: "أي من التالي يُعتبر 'مصرفاً للكربون' (Carbon sink) في الطبيعة؟", options: ["احتراق الفحم الحجري", "المحيطات والغابات النامية", "براكين متفجرة", "سيارات تعمل بالبنزين"], answer: 1, explain: "مصرف الكربون (Carbon sink) يمتص كربوناً من الجو أكثر مما يطلقه كالمحيطات والنباتات الأشجار.", page: 40 },
+            { level: 13, topic: "الحياد الكربوني", q: "تحقيق التوازن بين الكمية المُنطلقة من ثاني أكسيد الكربون والكمية الممتصة من الجو يُعرف بـ:", options: ["الحياد الكربوني (Carbon neutral)", "الرعي الجائر", "التكثف الفائق", "الانقراض الجماعي"], answer: 0, explain: "الحياد الكربوني يعني الموازنة الشاملة بين ما يُطلق من CO2 وما يتم امتصاصه أو إزالته.", page: 40 },
+            { level: 13, topic: "العمليات المصاصة للكربون", q: "العملية الحيوية الوحيدة الطبيعية التي تقوم بسحب ثاني أكسيد الكربون بشكل مباشر من الجو هي:", options: ["التنفس الهوائي", "الاحتراق", "التمثيل الضوئي (Photosynthesis)", "التحلل البكتيري"], answer: 2, explain: "تمتص عملية التمثيل الضوئي ثاني أكسيد الكربون وتثبته في صورة جلوكوز ومركبات عضوية.", page: 40 },
+
+            // Level 14 (Element: Ti - 500,000 Points)
+            { level: 14, topic: "خطة عمان وانبعاثات 2021", q: "وفق التقديرات المذكورة بالكتيب لعام 2021، كم بلغت انبعاثات الكربون في سلطنة عُمان تقريباً؟", options: ["10 ملايين طن مكافئ CO2", "50 مليون طن مكافئ CO2", "90 مليون طن مكافئ CO2", "200 مليون طن مكافئ CO2"], answer: 2, explain: "قُدرت انبعاثات الكربون في سلطنة عمان لعام 2021 م بما يقارب 90 مليون طن مكافئ من CO2.", page: 41 },
+            { level: 14, topic: "قطاعات الانبعاث في عمان", q: "ما النسبة المئوية للانبعاثات الصادرة من القطاعات الخمسة الرئيسية في عمان عام 2021؟", options: ["50%", "75%", "95%", "100%"], answer: 2, explain: "حوالي 95% من إجمالي الانبعاثات الكربونية في عمان صدرت من القطاعات الخمسة الرئيسية.", page: 41 },
+            { level: 14, topic: "خطة عمان لصافي الانبعاثات", q: "تستهدف سلطنة عُمان تحقيق الوصول إلى 'صافي انبعاثات صفري' بحلول عام:", options: ["2030", "2040", "2050", "2100"], answer: 2, explain: "تستهدف الخطة الوطنية لسلطنة عمان تحقيق صافي انبعاثات صفري (Net zero) بحلول عام 2050م.", page: 41 },
+
+            // Level 15 (Element: Au - 1,000,000 Points)
+            { level: 15, topic: "صافي الانبعاثات الصفري", q: "المقصود بـ 'صافي الانبعاثات الصفري' (Net zero emissions) هو:", options: ["التوقف التام والكامل عن استخدام أية طاقة في الدولة", "التخلص التام من غازات الدفيئة البشرية بتخفيضها وامتصاص المتبقي منها", "تحويل كل المباني إلى زجاج شفاف", "إلغاء كافة المصانع والأنشطة الاقتصادية"], answer: 1, explain: "الوصول لـ Net Zero يعني خفض الانبعاثات لأقصى حد وإزالة أي انبعاثات متبقية بالتقنيات والزراعة.", page: 40 },
+            { level: 15, topic: "الحياد والتطبيقات", q: "إذا قامت شركة نفط بإنشاء برنامج واسع لزراعة الأشجار لامتصاص انبعاثاتها، فهي تسعى لـ:", options: ["زيادة بصمتها الكربونية", "تحقيق الحياد الكربوني (Carbon neutrality)", "إلغاء التنفس الهوائي", "زيادة التلوث النفطي"], answer: 1, explain: "تعويض الانبعاثات باستزراع مصارف كربون كالأشجار هو آليّة حيوية للوصول للحياد الكربوني.", page: 40 },
+            { level: 15, topic: "تقنيات عمان 2050", q: "تتضمن استراتيجية سلطنة عمان 2050 للوصول للحياد الكربوني الاعتماد في قطاع النقل على:", options: ["السيارات الكهربائية (EVs) والهيدروجين الأخضر", "زيادة استهلاك الفحم الحجري", "توسعة محركات الأوكتان العادية", "إلغاء الطرق المعبدة"], answer: 0, explain: "تتضمن خطة عُمان لعام 2050 التحول نحو المركبات الكهربائية وتكنولوجيا الهيدروجين الأخضر والطاقة المتجددة.", page: 41 }
+        ];
+
+        /* ==========================================================================
+           2) بطاقات المراجعة (Flashcards)
+           ========================================================================== */
+        const FLASHCARDS = [
+            { term: "الاستدامة (Sustainability)", def: "القدرة على تلبية احتياجات الحاضر دون المساس بقدرة الأجيال القادمة على تلبية احتياجاتها." },
+            { term: "النظام البيئي (Ecosystem)", def: "مجتمع أحيائي من الكائنات الحية تتفاعل مع بعضها ومع البيئة المادية التي تعيش فيها." },
+            { term: "التلوث (Pollution)", def: "وجود أو إدخال مادة ضارة لها تأثيرات سامة في البيئة." },
+            { term: "التنوع البيولوجي (Biodiversity)", def: "عدد الكائنات الحية المختلفة والموجودة في النظام البيئي أو المنطقة." },
+            { term: "دورة الماء (Water cycle)", def: "العملية التي ينتقل فيها الماء من البحر إلى الغلاف الجوي وإلى سطح الأرض وفي جوفها ثم يعود للبحر." },
+            { term: "النظام المفتوح (Open system)", def: "نظام يمكن فيه للمادة أو الطاقة أن تكتسب أو تُفقد." },
+            { term: "النظام المغلق (Closed system)", def: "نظام لا تتكون ولا تكتسب فيه المادة ولا تُفقد." },
+            { term: "الخزان الجوفي (Aquifer)", def: "طبقة منفذة من الصخور تختزن المياه الجوفية تحت الأرض." },
+            { term: "الاعتراض (Interception)", def: "احتجاز أوراق الأشجار أو المظلة النباتية لقطرات المطر ومنعها من الوصول المباشر للتربة." },
+            { term: "المنطقة الأحيائية (Biome)", def: "مفهوم جغرافي واسع النطاق يحدده مناخ وغطاء نباتي سائد." },
+            { term: "الجماعة الأحيائية (Population)", def: "مجموعة من الكائنات الحية من النوع نفسه تعيش في نظام بيئي." },
+            { term: "المجتمع الأحيائي (Community)", def: "الجماعات الأحيائية المختلفة التي تعيش معاً في نظام بيئي." },
+            { term: "الموطن البيئي (Habitat)", def: "المكان الذي يتخذه الكائن الحي مسكناً ويلبي كل ظروف بقائه (طعام، ماء، مأوى، مساحة)." },
+            { term: "المستوى الغذائي (Trophic level)", def: "موقع الكائن الحي داخل السلسلة الغذائية أو الهرم البيئي." },
+            { term: "مصرف الكربون (Carbon sink)", def: "مخزن يمتص كمية كربون من الغلاف الجوي أكثر مما يطلقه." },
+            { term: "مصدر الكربون (Carbon source)", def: "مخزن يطلق كربون للغلاف الجوي أكثر مما يمتصه." },
+            { term: "الحياد الكربوني (Carbon neutral)", def: "التوازن التام بين كمية الكربون المُنطلقة وكمية الكربون الممتصة." },
+            { term: "صافي الانبعاثات الصفري (Net zero emissions)", def: "التخلص التام من غازات الدفيئة الناتجة عن الأنشطة البشرية بتخفيض الانبعاثات وإزالتها." }
+        ];
+
+        /* ==========================================================================
+           3) سلم العناصر الكيميائية والمستويات
+           ========================================================================== */
+        const LADDER = [
+            { level: 1, elem: "H", points: "100 نقطة", safe: false },
+            { level: 2, elem: "O", points: "200 نقطة", safe: false },
+            { level: 3, elem: "C", points: "300 نقطة", safe: false },
+            { level: 4, elem: "N", points: "500 نقطة", safe: false },
+            { level: 5, elem: "Mg", points: "1,000 نقطة (مستوى آمن)", safe: true },
+            { level: 6, elem: "Ca", points: "2,000 نقطة", safe: false },
+            { level: 7, elem: "P", points: "4,000 نقطة", safe: false },
+            { level: 8, elem: "S", points: "8,000 نقطة", safe: false },
+            { level: 9, elem: "Fe", points: "16,000 نقطة", safe: false },
+            { level: 10, elem: "Na", points: "32,000 نقطة (مستوى آمن)", safe: true },
+            { level: 11, elem: "Cl", points: "64,000 نقطة", safe: false },
+            { level: 12, elem: "K", points: "125,000 نقطة", safe: false },
+            { level: 13, elem: "Si", points: "250,000 نقطة", safe: false },
+            { level: 14, elem: "Ti", points: "500,000 نقطة", safe: false },
+            { level: 15, elem: "Au", points: "1,000,000 طاقة صفري", safe: true }
+        ];
+
+        /* ==========================================================================
+           4) منطق اللعبة والتحكم في الحالة
+           ========================================================================== */
+        let currentLevel = 1;
+        let soundEnabled = true;
+        let timerInterval = null;
+        let timeLeft = 30;
+        let maxTime = 30;
+        let currentQuestion = null;
+
+        // Lifelines status
+        let usedLifelines = {
+            life5050: false,
+            lifePhone: false,
+            lifeAudience: false
+        };
+
+        // Web Audio API Synth Sounds
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, audioCtx.currentTime + 0.3); // E5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.4);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        // DOM Elements
+        const ladderContainer = document.getElementById('ladderContainer');
+        const questionText = document.getElementById('questionText');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const optionBtns = document.querySelectorAll('.option-btn');
+        const timerFill = document.getElementById('timerFill');
+        const explainBox = document.getElementById('explainBox');
+        const explainText = document.getElementById('explainText');
+        const explainPage = document.getElementById('explainPage');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+
+        // Render Ladder
+        function renderLadder() {
+            ladderContainer.innerHTML = '';
+            // Render top to bottom
+            for (let i = LADDER.length - 1; i >= 0; i--) {
+                const step = LADDER[i];
+                const div = document.createElement('div');
+                div.className = `ladder-step ${step.level === currentLevel ? 'active' : ''} ${step.safe ? 'checkpoint' : ''}`;
+                div.innerHTML = `
+                    <div class="element-badge">${step.elem}</div>
+                    <div>المستوى ${step.level}</div>
+                    <div>${step.points}</div>
+                `;
+                ladderContainer.appendChild(div);
+            }
+        }
+
+        // Get Random Question for Level
+        function getQuestionForLevel(lvl) {
+            const pool = QUESTION_BANK.filter(q => q.level === lvl);
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        // Start Question
+        function loadQuestion() {
+            clearInterval(timerInterval);
+            explainBox.classList.remove('show');
+            
+            // Set timer duration based on level
+            if (currentLevel <= 5) maxTime = 30;
+            else if (currentLevel <= 10) maxTime = 45;
+            else maxTime = 60;
+            
+            timeLeft = maxTime;
+            updateTimerUI();
+
+            currentQuestion = getQuestionForLevel(currentLevel);
+            questionText.textContent = `[المستوى ${currentLevel} - عنصر ${LADDER[currentLevel-1].elem}] ${currentQuestion.q}`;
+
+            optionBtns.forEach((btn, idx) => {
+                btn.disabled = false;
+                btn.className = 'option-btn';
+                btn.style.visibility = 'visible';
+                btn.querySelector('.opt-text').textContent = currentQuestion.options[idx];
+            });
+
+            renderLadder();
+
+            // Start Countdown
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const pct = (timeLeft / maxTime) * 100;
+            timerFill.style.width = `${pct}%`;
+            if (pct < 30) {
+                timerFill.style.background = 'var(--accent-red)';
+            } else {
+                timerFill.style.background = 'linear-gradient(90deg, var(--accent-green), var(--accent-yellow))';
+            }
+        }
+
+        function handleTimeOut() {
+            playSound('wrong');
+            showModal('انتهى الوقت! ⏱️', 'انتهت المهلة الزمنية للإجابة على السؤال الحقيقي.', () => {
+                endGame(false);
+            });
+        }
+
+        // Handle Option Click
+        optionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                clearInterval(timerInterval);
+                const selectedIdx = parseInt(btn.getAttribute('data-idx'));
+                
+                // Disable all buttons
+                optionBtns.forEach(b => b.disabled = true);
+
+                if (selectedIdx === currentQuestion.answer) {
+                    // Correct
+                    playSound('correct');
+                    btn.classList.add('correct');
+                    explainText.textContent = currentQuestion.explain;
+                    explainPage.textContent = `مرجع الكتاب المدرسي: صفحة (${currentQuestion.page})`;
+                    explainBox.classList.add('show');
+                } else {
+                    // Wrong
+                    playSound('wrong');
+                    btn.classList.add('wrong');
+                    optionBtns[currentQuestion.answer].classList.add('correct');
+                    
+                    explainText.textContent = currentQuestion.explain;
+                    explainPage.textContent = `مرجع الكتاب المدرسي: صفحة (${currentQuestion.page})`;
+                    explainBox.classList.add('show');
+
+                    nextQuestionBtn.textContent = "عرض النتيجة النهائية 🛑";
+                    nextQuestionBtn.onclick = () => endGame(false);
+                }
+            });
+        });
+
+        // Next Question Button Click
+        nextQuestionBtn.addEventListener('click', () => {
+            if (currentLevel < 15) {
+                currentLevel++;
+                loadQuestion();
+            } else {
+                endGame(true);
+            }
+        });
+
+        // Game Over / Win
+        function endGame(isWin) {
+            let pointsEarned = "0 نقطة";
+            let rank = "متدرب مختبر بيئي 🧪";
+
+            if (isWin) {
+                pointsEarned = "1,000,000 نقطة طاقة";
+                rank = "خبير حاصل على صافي انبعاثات صفري 🌿🏆";
+            } else {
+                // Calculate safe checkpoint
+                if (currentLevel > 10) {
+                    pointsEarned = "32,000 نقطة طاقة (مستوى آمن)";
+                    rank = "باحث كيميائي بيئي متقدم 🔬";
+                } else if (currentLevel > 5) {
+                    pointsEarned = "1,000 نقطة طاقة (مستوى آمن)";
+                    rank = "مساعد فني بيئي 📊";
+                }
+            }
+
+            showModal(
+                isWin ? 'تهانينا! حققت صافي الانبعاثات الصفري! 🎉' : 'انتهت اللعبة! 🧬',
+                `وصلت إلى المستوى: ${currentLevel}<br>نقاط الطاقة المكتسبة: <strong>${pointsEarned}</strong><br>الرتبة العلمية المستحقة: <strong>${rank}</strong>`,
+                () => {
+                    resetGame();
+                }
+            );
+        }
+
+        function resetGame() {
+            currentLevel = 1;
+            usedLifelines = { life5050: false, lifePhone: false, lifeAudience: false };
+            document.querySelectorAll('.lifeline-btn').forEach(b => b.disabled = false);
+            nextQuestionBtn.textContent = "السؤال التالي ⬅️";
+            nextQuestionBtn.onclick = null;
+            loadQuestion();
+        }
+
+        /* ==========================================================================
+           5) وسائل المساعدة (Lifelines)
+           ========================================================================== */
+        // 50:50
+        document.getElementById('life5050').addEventListener('click', function() {
+            if (usedLifelines.life5050) return;
+            usedLifelines.life5050 = true;
+            this.disabled = true;
+
+            const wrongIndices = [0, 1, 2, 3].filter(i => i !== currentQuestion.answer);
+            // Shuffle wrong
+            wrongIndices.sort(() => Math.random() - 0.5);
+
+            // Hide 2 wrong options
+            optionBtns[wrongIndices[0]].style.visibility = 'hidden';
+            optionBtns[wrongIndices[1]].style.visibility = 'hidden';
+        });
+
+        // Call Expert
+        document.getElementById('lifePhone').addEventListener('click', function() {
+            if (usedLifelines.lifePhone) return;
+            usedLifelines.lifePhone = true;
+            this.disabled = true;
+
+            let hint = "";
+            const correctOptChar = ['أ', 'ب', 'ج', 'د'][currentQuestion.answer];
+            
+            // High levels might have small chance of uncertainty
+            if (currentLevel > 10 && Math.random() < 0.2) {
+                hint = `العالِم البيئي: "لستُ متأكداً 100%، لكن أرجح أن الإجابة بين الخيارين الأولين."`;
+            } else {
+                hint = `العالِم البيئي: "بناءً على كتاب العلوم البيئية صفحة ${currentQuestion.page}، الإجابة الأكيدة هي الخيار (${correctOptChar})."`;
+            }
+
+            showModal('📞 محادثة مع عالِم بيئة', hint);
+        });
+
+        // Audience / Lab opinion
+        document.getElementById('lifeAudience').addEventListener('click', function() {
+            if (usedLifelines.lifeAudience) return;
+            usedLifelines.lifeAudience = true;
+            this.disabled = true;
+
+            let votes = [10, 10, 10, 10];
+            // Give main weight to correct answer
+            votes[currentQuestion.answer] += 60;
+            
+            // Randomize remaining 20
+            for(let i=0; i<20; i++) {
+                let r = Math.floor(Math.random() * 4);
+                votes[r]++;
+            }
+
+            const chars = ['أ', 'ب', 'ج', 'د'];
+            let bodyHTML = "<strong>توزيع أصوات خبراء المختبر:</strong><br><br>";
+            chars.forEach((c, idx) => {
+                bodyHTML += `الخيار (${c}): ${votes[idx]}%<br>`;
+            });
+
+            showModal('📊 تصويت رأي المختبر', bodyHTML);
+        });
+
+        /* ==========================================================================
+           6) النوافذ المنبثقة والتحكم
+           ========================================================================== */
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalBtn = document.getElementById('modalBtn');
+        let modalCallback = null;
+
+        function showModal(title, bodyHTML, callback = null) {
+            modalTitle.textContent = title;
+            modalBody.innerHTML = bodyHTML;
+            modalCallback = callback;
+            modalOverlay.classList.add('open');
+        }
+
+        modalBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('open');
+            if (modalCallback) modalCallback();
+        });
+
+        // Toggle Sound
+        document.getElementById('soundToggle').addEventListener('click', function() {
+            soundEnabled = !soundEnabled;
+            this.textContent = soundEnabled ? "🔊 الصوت: مفعل" : "🔇 الصوت: مكتوم";
+        });
+
+        // Withdraw
+        document.getElementById('withdrawBtn').addEventListener('click', () => {
+            showModal('تأكيد الانسحاب 🚪', 'هل أنت أصلًا متأكد من رغبتك بالانسحاب والاحتفاظ بنقاطك الحالية؟', () => {
+                endGame(false);
+            });
+        });
+
+        /* ==========================================================================
+           7) بطاقات المصطلحات (Flashcards logic)
+           ========================================================================== */
+        const flashcardOverlay = document.getElementById('flashcardOverlay');
+        const flashcardBox = document.getElementById('flashcardBox');
+        const fcTerm = document.getElementById('fcTerm');
+        const fcDef = document.getElementById('fcDef');
+        let fcIndex = 0;
+        let fcFlipped = false;
+
+        document.getElementById('flashcardsBtn').addEventListener('click', () => {
+            fcIndex = 0;
+            updateFlashcard();
+            flashcardOverlay.classList.add('open');
+        });
+
+        document.getElementById('fcClose').addEventListener('click', () => {
+            flashcardOverlay.classList.remove('open');
+        });
+
+        function updateFlashcard() {
+            fcFlipped = false;
+            fcTerm.textContent = FLASHCARDS[fcIndex].term;
+            fcDef.textContent = FLASHCARDS[fcIndex].def;
+            fcDef.style.display = 'none';
+            document.getElementById('fcFlip').textContent = '🔄 إظهار التعريف';
+        }
+
+        document.getElementById('fcFlip').addEventListener('click', () => {
+            fcFlipped = !fcFlipped;
+            if (fcFlipped) {
+                fcDef.style.display = 'block';
+                document.getElementById('fcFlip').textContent = '🔄 إخفاء التعريف';
+            } else {
+                fcDef.style.display = 'none';
+                document.getElementById('fcFlip').textContent = '🔄 إظهار التعريف';
+            }
+        });
+
+        document.getElementById('fcNext').addEventListener('click', () => {
+            fcIndex = (fcIndex + 1) % FLASHCARDS.length;
+            updateFlashcard();
+        });
+
+        document.getElementById('fcPrev').addEventListener('click', () => {
+            fcIndex = (fcIndex - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+            updateFlashcard();
+        });
+
+        // Initialize Game
+        loadQuestion();
+    </script>
+</body>
+</html>
